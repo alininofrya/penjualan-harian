@@ -28,6 +28,29 @@
         }
         ?>
     </table>
+
+    <?php
+    // Query rata-rata total pendapatan
+    $q_avg = $conn->query("SELECT AVG(total_pendapatan) AS rata_rata_pendapatan FROM v_laporan_harian");
+    $avg = $q_avg->fetch_assoc();
+    ?>
+    <p><strong>Rata-rata Total Pendapatan: </strong>Rp <?php echo number_format($avg['rata_rata_pendapatan'], 2, ',', '.'); ?></p>
+
+    <?php
+    // Produk yang paling banyak terjual (akumulasi total per produk)
+    $q_top = $conn->query("SELECT nama_produk, MAX(total_terjual) AS jumlah_terjual 
+                           FROM v_laporan_harian 
+                           GROUP BY nama_produk 
+                           ORDER BY jumlah_terjual DESC");
+    $top = $q_top->fetch_assoc();
+    ?>
+    <p><strong>Produk Terlaris: </strong><?php echo $top['nama_produk']; ?> (<?php echo $top['jumlah_terjual']; ?> unit)</p>
+
 </div>
+
+<?php
+
+
+?>
 </body>
 </html>

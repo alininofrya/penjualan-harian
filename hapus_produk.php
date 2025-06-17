@@ -6,7 +6,7 @@ if (!isset($_GET['id'])) {
     exit;
 }
 
-$id = $_GET['id_prod'];
+$id = $_GET['id'];
 
 // Hapus produk berdasarkan id
 $delete = $conn->query("DELETE FROM produk WHERE id_produk = '$id' ");

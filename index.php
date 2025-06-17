@@ -15,7 +15,14 @@
 </div>
 
 <div class="container">
+    <!-- Form Pencarian -->
+    <form method="GET" action="">
+        <input type="text" name="cari" placeholder="Cari berdasarkan nama produk..." value="<?php 
+        if(isset($_GET['cari'])) echo $_GET['cari']; ?>">
+        <button type="submit">Cari</button>
+    </form>
 
+    <!-- Tabel Produk -->
     <h1>Daftar Produk</h1>
     <table>
         <tr>
@@ -27,7 +34,8 @@
         </tr>
         <?php
         $i = 1;
-        $q = $conn->query("SELECT * FROM produk");
+        $cari = isset($_GET['cari']) ? $_GET['cari'] : '';
+        $q = $conn->query("SELECT * FROM produk WHERE nama_produk LIKE '%$cari%'");
         while ($row = $q->fetch_assoc()) {
             echo "<tr>
                 <td>{$i}</td>
@@ -44,6 +52,7 @@
         ?>
     </table>
 
+    <!-- Tabel Penjualan -->
     <h1>Daftar Penjualan</h1>
     <table>
         <tr>
@@ -55,7 +64,9 @@
         </tr>
         <?php
         $i = 1;
-        $q = $conn->query("SELECT j.*, p.nama_produk FROM penjualan j JOIN produk p ON j.id_produk = p.id_produk");
+        $q = $conn->query("SELECT j.*, p.nama_produk FROM penjualan j 
+                           JOIN produk p ON j.id_produk = p.id_produk 
+                           WHERE p.nama_produk LIKE '%$cari%'");
         while ($row = $q->fetch_assoc()) {
             echo "<tr>
                 <td>{$i}</td>
